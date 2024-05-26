@@ -14,7 +14,7 @@ from core.handlers.info_about_channel import check_info_about_channel
 import datetime as dt
 
 load_dotenv()
-TOKEN = os.getenv('TOKEN_TEST')
+TOKEN = os.getenv('TOKEN')
 ADMIN_ID = os.getenv('ADMIN_ID')
 CHANNEL_REDDITMEMESENG = os.getenv('CHANNEL_REDDITMEMESENG')
 
