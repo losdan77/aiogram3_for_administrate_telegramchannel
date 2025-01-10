@@ -57,5 +57,5 @@ jobs:
           sudo docker rm telegram_admin_container
           sudo docker image rm telegram_admin
           sudo docker build -t telegram_admin .
-          sudo docker run --name telegram_admin_container telegram_admin -d
+          sudo docker run -d --name telegram_admin_container telegram_admin
         EOF
