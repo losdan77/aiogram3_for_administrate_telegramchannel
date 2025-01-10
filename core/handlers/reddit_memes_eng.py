@@ -7,7 +7,7 @@ import random
 
 import datetime as dt
 
-from core.utils.for_parser import proxies, mass_user_agent
+from core.utils.for_parser import mass_user_agent
 
 import os
 from dotenv import load_dotenv
@@ -18,8 +18,8 @@ CHANNEL_REDDITMEMESENG = os.getenv('CHANNEL_REDDITMEMESENG')
 
 
 url = 'https://www.reddit.com/r/memes/'
-block_div_class = 'block relative cursor-pointer group bg-neutral-background focus-within:bg-neutral-background-hover hover:bg-neutral-background-hover xs:rounded-[16px] px-md py-2xs my-2xs nd:visible'
-text_title_class = 'block font-semibold text-neutral-content-strong m-0 visited:text-neutral-content-weak text-16 xs:text-18  mb-2xs xs:mb-xs '
+text_div_class = 'block relative cursor-pointer group bg-neutral-background focus-within:bg-neutral-background-hover hover:bg-neutral-background-hover xs:rounded-[16px] px-md py-2xs my-2xs nd:visible'
+photo_div_class = 'media-lightbox-img max-h-[100vw] h-full w-full object-contain overflow-hidden relative bg-black'
 
 
 async def published_post_reddit_memes_eng(bot: Bot):
@@ -28,11 +28,11 @@ async def published_post_reddit_memes_eng(bot: Bot):
             'User-Agent': random.choice(mass_user_agent)
         }
 
-        response = requests.get(url, headers=headers, proxies=proxies)
+        response = requests.get(url, headers=headers)
         soup = BeautifulSoup(response.text, "lxml")
 
-        photo_url = soup.find(class_=block_div_class).find('img')['src']
-        title_text = soup.find(class_=block_div_class).find('a')
+        photo_url = soup.find(class_=photo_div_class).find('img')['src']
+        title_text = soup.find(class_=text_div_class).find('a')
         title_text = str(title_text.text)
 
         with open('photo_url.txt', 'r') as file:
@@ -42,7 +42,7 @@ async def published_post_reddit_memes_eng(bot: Bot):
             with open('photo_url.txt', 'w') as file:
                 file.write(photo_url)
 
-            photo = requests.get(photo_url, headers=headers, proxies=proxies)
+            photo = requests.get(photo_url, headers=headers)
 
             with open('photo.png', 'wb') as file:
                 file.write(photo.content)
