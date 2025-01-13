@@ -22,33 +22,23 @@ jobs:
       uses: webfactory/ssh-agent@v0.5.3
       with:
         ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
-
-    # 3. Установим docker-Compose
-    # - name: Install Docker Compose
-    #   run: |
-    #     sudo apt-get update
-    #     sudo apt-get install -y docker-compose
     
-    # 5. Создаём файл .env-non-dev из секретов
+    # 3. Создаём файл .env из секретов
     - name: Create .env file
       run: echo "${{ secrets.ENV_FILE }}" > ./.env
 
-    # 7. Проверка Docker Compose
-    # - name: Lint Docker Compose
-    #   run: docker-compose -f docker-compose.yml config
-
-    # 8. Сборка Docker образов
+    # 4. Сборка Docker образов
     - name: Build Docker image
       run: |
         docker build .
 
-    # 9. Копирование файлов на сервер
+    # 5. Копирование файлов на сервер
     - name: Deploy files to server
       run: |
         ssh -o StrictHostKeyChecking=no los@176.123.167.12 "mkdir -p ~/bot_admin"
         rsync -avz --exclude=".git" ./ los@176.123.167.12:~/bot_admin/
 
-    # 10. Запуск Docker Compose на сервере
+    # 6. Запуск Docker на сервере
     - name: Restart application
       run: |
         ssh -o StrictHostKeyChecking=no los@176.123.167.12 << 'EOF'

@@ -6,6 +6,8 @@ WORKDIR /bot
 
 COPY requirements.txt .
 
+RUN touch NSD.txt
+
 RUN pip install -r requirements.txt
 
 COPY . .

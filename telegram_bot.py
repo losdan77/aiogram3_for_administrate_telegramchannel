@@ -70,7 +70,7 @@ async def start():
     scheduler = AsyncIOScheduler(timezone='Europe/Moscow')
     scheduler.add_job(published_post_reddit_memes_eng,
                       trigger='interval',
-                      seconds=3600,
+                      seconds=60,
                       kwargs={'bot': bot})
     scheduler.start()
 
