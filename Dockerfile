@@ -8,11 +8,11 @@ COPY requirements.txt .
 
 RUN touch NSD.txt
 
-RUN chmod a+x /bot/*.txt
-
 RUN pip install -r requirements.txt
 
 COPY . .
+
+RUN chmod 777 /bot/*.txt
 
 CMD [ "python", "telegram_bot.py" ]
 
