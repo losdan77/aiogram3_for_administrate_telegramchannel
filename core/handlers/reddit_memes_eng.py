@@ -24,11 +24,9 @@ photo_div_class = 'media-lightbox-img max-h-[100vw] h-full w-full object-contain
 
 async def published_post_reddit_memes_eng(bot: Bot):
     try:
-        await bot.send_message(ADMIN_ID, 'Начало')
         headers = {
             'User-Agent': random.choice(mass_user_agent)
         }
-        await bot.send_message(ADMIN_ID, 'pre') #
         proxies = {
             'http': 'http://V84kEe:XhAdiJu5Ej@45.15.72.224:5500',
             'https': 'http://V84kEe:XhAdiJu5Ej@45.15.72.224:5500'
@@ -36,29 +34,28 @@ async def published_post_reddit_memes_eng(bot: Bot):
         
         response = requests.get(url, headers=headers, proxies=proxies)
         soup = BeautifulSoup(response.text, "lxml")
-        await bot.send_message(ADMIN_ID, 'post') #
+
         photo_url = soup.find(class_=photo_div_class).find('img')['src']
         title_text = soup.find(class_=text_div_class).find('a')
         title_text = str(title_text.text)
-        await bot.send_message(ADMIN_ID, f'{str(photo_url)} - {str(title_text)}') #
+       
         with open('photo_url.txt', 'r') as file:
             last_photo_url = file.readline()
-        await bot.send_message(ADMIN_ID, 'middle') #
+     
         if photo_url != last_photo_url:
             with open('photo_url.txt', 'w') as file:
                 file.write(photo_url)
-            await bot.send_message(ADMIN_ID, 'if') #
+            
             photo = requests.get(photo_url, headers=headers, proxies=proxies)
 
             with open('photo.png', 'wb') as file:
                 file.write(photo.content)
 
             result_photo = FSInputFile(r'./photo.png')
-            await bot.send_message(ADMIN_ID, 'ok') #
+            
             await bot.send_photo(CHANNEL_REDDITMEMESENG,
                                 photo=result_photo,
                                 caption=title_text)
-            await bot.send_message(ADMIN_ID, 'end') #
+            
     except Exception as e:
         await bot.send_message(ADMIN_ID, f'ошибка {e}')
-        print('error')
