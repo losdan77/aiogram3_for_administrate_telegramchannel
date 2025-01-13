@@ -28,10 +28,10 @@ async def published_post_reddit_memes_eng(bot: Bot):
         headers = {
             'User-Agent': random.choice(mass_user_agent)
         }
-        await bot.send_message(ADMIN_ID, 'pre')
+        await bot.send_message(ADMIN_ID, 'pre') #
         response = requests.get(url, headers=headers)
         soup = BeautifulSoup(response.text, "lxml")
-        await bot.send_message(ADMIN_ID, 'post')
+        await bot.send_message(ADMIN_ID, 'post') #
         photo_url = soup.find(class_=photo_div_class).find('img')['src']
         title_text = soup.find(class_=text_div_class).find('a')
         title_text = str(title_text.text)
@@ -55,5 +55,5 @@ async def published_post_reddit_memes_eng(bot: Bot):
                                 caption=title_text)
             await bot.send_message(ADMIN_ID, 'end') #
     except Exception as e:
-        await bot.send_message(ADMIN_ID, 'ошибка {e}')
+        await bot.send_message(ADMIN_ID, f'ошибка {e}')
         print('error')
