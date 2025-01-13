@@ -25,23 +25,16 @@ photo_div_class = 'media-lightbox-img max-h-[100vw] h-full w-full object-contain
 async def published_post_reddit_memes_eng(bot: Bot):
     try:
         await bot.send_message(ADMIN_ID, 'Начало')
-        # headers = {
-        #     'User-Agent': random.choice(mass_user_agent)
-        # }
+        headers = {
+            'User-Agent': random.choice(mass_user_agent)
+        }
         await bot.send_message(ADMIN_ID, 'pre') #
-        session = requests.Session()
-        session.headers.update({
-            'User-Agent': random.choice(mass_user_agent),
-            'Accept-Language': 'en-US,en;q=0.9',
-            'Referer': 'https://www.reddit.com/'
-        })
-        session.cookies.set('example_cookie_name', 'example_cookie_value')
-        response = session.get(url)
-        if response.status_code != 200:
-            await bot.send_message(ADMIN_ID, f"Ошибка запроса: {response.status_code}")
-            
+        proxies = {
+            'http': 'http://V84kEe:XhAdiJu5Ej@45.15.72.224:5500',
+            'https': 'http://V84kEe:XhAdiJu5Ej@45.15.72.224:5500'
+        }   
         
-        # response = requests.get(url, headers=headers)
+        response = requests.get(url, headers=headers, proxies=proxies)
         soup = BeautifulSoup(response.text, "lxml")
         await bot.send_message(ADMIN_ID, 'post') #
         photo_url = soup.find(class_=photo_div_class).find('img')['src']
@@ -55,7 +48,7 @@ async def published_post_reddit_memes_eng(bot: Bot):
             with open('photo_url.txt', 'w') as file:
                 file.write(photo_url)
             await bot.send_message(ADMIN_ID, 'if') #
-            photo = requests.get(photo_url, headers=headers)
+            photo = requests.get(photo_url, headers=headers, proxies=proxies)
 
             with open('photo.png', 'wb') as file:
                 file.write(photo.content)
