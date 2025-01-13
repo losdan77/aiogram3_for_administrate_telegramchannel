@@ -8,6 +8,8 @@ COPY requirements.txt .
 
 RUN touch NSD.txt
 
+RUN chmod a+x /bot/*.txt
+
 RUN pip install -r requirements.txt
 
 COPY . .
